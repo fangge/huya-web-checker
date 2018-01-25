@@ -1,0 +1,55 @@
+body {
+    width: 588px;
+    height: 492px;
+    font-family: "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+body.disabled{
+    width: 200px;
+    height: 40px;
+}
+
+.tab-content {
+    max-height: 480px;
+    overflow-y: auto;
+    padding-top: 10px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+img {
+    width: 88px;
+    height: 40px;
+}
+
+.table {
+    /*width: 500px;*/
+}
+
+.table>tbody>tr>th {
+    width: 100px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.table>tbody>tr>td {
+    width: 400px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.btn-refresh {
+    width: 500px;
+    margin: 10px 0;
+}
+#qrcode-wrap{
+    width: 200px;
+    margin: 20px auto;
+}
+#qrcode h2{text-align: center}
+#downImgAll{display:block;margin: 5px auto}

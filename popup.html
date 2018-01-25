@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <title>NIE Web Checker</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/popup.css" type="text/css">
+</head>
+<body>
+
+<div role="tabpanel">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">基本信息</a></li>
+        <li role="presentation"><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">监测代码</a></li>
+        <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">图片大小</a></li>
+        <li role="presentation"><a href="#qrcode" aria-controls="qrcode" role="tab" data-toggle="tab">二维码</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="basic">
+            <p id="meta-info">读取中...</p>
+            <table class="table hide" id="meta-table">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>内容</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="monitor">
+            <p id="monitor-info">请点下方按钮刷新...</p>
+            <table class="table hide" id="monitor-table">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>内容</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="common-info">
+                    <th>通用组件</th>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr id="duowan-info">
+                    <th>多玩统计</th>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr id="ya-info">
+                    <th>海度统计</th>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr id="baidu-info">
+                    <th>百度统计</th>
+                    <td>
+                        <!--http://gad.netease.com/gad/point?point_id=184&s=UZ39fxqM5JCPgkT30j97pjF5F64%3D-->
+                        <!--<br><br>-->
+                        <!--http://gad.netease.com/gad/point?point_id=184&s=UZ39fxqM5JCPgkT30j97pjF5F64%3D-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="image">
+            <p id="image-info">请点下方按钮刷新...</p>
+            <table class="table hide" id="image-table">
+                <thead>
+                <tr>
+                    <th>超标图片</th>
+                    <th>格式</th>
+                    <th>实际大小</th>
+                    <th>最大大小</th>
+                    <th>Width</th>
+                    <th>Height</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <a class="btn btn-primary" id="downImgAll">下载此页面所有图片</a>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="qrcode">
+            <h2>本页面地址二维码</h2>
+            <div id="qrcode-wrap"></div>
+
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-default btn-lg btn-block btn-refresh">如有显示异常，请点此刷新</button>
+
+</div>
+
+
+<script src="js/lib/jquery-2.1.3.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/module/meta.js"></script>
+<script src="js/module/image.js"></script>
+<script src="js/module/jquery.qrcode.min.js"></script>
+<script src="js/module/monitor.js"></script>
+<script src="js/popup.js"></script>
+</body>
+</html>
