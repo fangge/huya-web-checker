@@ -25,7 +25,6 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var currentTab = tabs[0];
 
     $("#qrcode-wrap").qrcode({
-        render: "table", //table方式
         width: 200, //宽度
         height:200, //高度
         text:currentTab.url
