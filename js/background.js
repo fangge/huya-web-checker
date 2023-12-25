@@ -1,11 +1,11 @@
 var images = [];
 var allImages = {};
-var monitorScripts  = {};
-var allMonitorScripts = {};
-monitorScripts.mixCommon = [];
-monitorScripts.duowan = [];
-monitorScripts.bd = [];
-monitorScripts.ya = [];
+// var monitorScripts  = {};
+// var allMonitorScripts = {};
+// monitorScripts.mixCommon = [];
+// monitorScripts.duowan = [];
+// monitorScripts.bd = [];
+// monitorScripts.ya = [];
 
 
 function request (details) {
@@ -24,24 +24,24 @@ function request (details) {
         }
     }
 
-    if (/((jquery\.min|Jcode)\.js)/.test(details.url)) {
-        monitorScripts.mixCommon.push(details.url);
-    }
-    if (/feSdk/.test(details.url)) {
-        monitorScripts.mixCommon.push(details.url);
-    }
+    // if (/((jquery\.min|Jcode)\.js)/.test(details.url)) {
+    //     monitorScripts.mixCommon.push(details.url);
+    // }
+    // if (/feSdk/.test(details.url)) {
+    //     monitorScripts.mixCommon.push(details.url);
+    // }
 
-    if (/duowan\.js/.test(details.url)) {
-        monitorScripts.duowan.push(details.url);
-    }
+    // if (/duowan\.js/.test(details.url)) {
+    //     monitorScripts.duowan.push(details.url);
+    // }
 
-    if (/(hm|h)\.js/.test(details.url)) {
-        monitorScripts.bd.push(details.url);
-    }
+    // if (/(hm|h)\.js/.test(details.url)) {
+    //     monitorScripts.bd.push(details.url);
+    // }
 
-    if (/ylog\.hiido\.com/.test(details.url)) {
-        monitorScripts.ya.push(details.url);
-    }
+    // if (/ylog\.hiido\.com/.test(details.url)) {
+    //     monitorScripts.ya.push(details.url);
+    // }
 
     return false;
     //++count;
@@ -65,13 +65,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
         console.log('start load');
         images = [];
-        monitorScripts.mixCommon = [];
-        monitorScripts.duowan = [];
-        monitorScripts.bd = [];
-        monitorScripts.ya = [];
+        // monitorScripts.mixCommon = [];
+        // monitorScripts.duowan = [];
+        // monitorScripts.bd = [];
+        // monitorScripts.ya = [];
 
         allImages = {};
-        allMonitorScripts = {};
+        // allMonitorScripts = {};
 
         chrome.webRequest.onCompleted.addListener(
             request, {
@@ -98,9 +98,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         });
 
         allImages[tabId] = images;
-        allMonitorScripts[tabId] = monitorScripts;
+        // allMonitorScripts[tabId] = monitorScripts;
         console.log(allImages);
-        console.log(allMonitorScripts);
+
 
         setTimeout(function () {
             chrome.runtime.sendMessage('bg', function (response) {

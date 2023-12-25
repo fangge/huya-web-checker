@@ -80,8 +80,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 function main (tabId) {
 
     var BGPage = chrome.extension.getBackgroundPage();
+    console.log('BGPage: ', BGPage);
     var images = BGPage.allImages[tabId];
-    var monitorScripts = BGPage.allMonitorScripts[tabId];
+    // var monitorScripts = BGPage.allMonitorScripts[tabId];
     ModImage.init(images);
-    ModMonitor.init(monitorScripts);
+    // ModMonitor.init(monitorScripts);
 }
