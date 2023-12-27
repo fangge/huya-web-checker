@@ -1,113 +1,58 @@
-var images = [];
-var allImages = {};
-// var monitorScripts  = {};
-// var allMonitorScripts = {};
-// monitorScripts.mixCommon = [];
-// monitorScripts.duowan = [];
-// monitorScripts.bd = [];
-// monitorScripts.ya = [];
+// Use a global object to maintain images per tab.
+
+let allImages = {};
+let allMonitorScripts = {};
 
 
-function request (details) {
-
-    var imageItem = {};
-
-    // 查找响应头里的 'Content-Length' 属性来确定图片大小
-    for (var i = 0; i < details.responseHeaders.length; i++) {
-        if (details.responseHeaders[i].name === 'Content-Length') {
-            if (/(\.jpg|\.png)\?*\b/ig.test(details.url)) {
-                imageItem.url = details.url;
-                imageItem.size = details.responseHeaders[i].value;
-                images.push(imageItem);
-                break;
-            }
-        }
+const request = (details) => {
+  const header = details.responseHeaders.find(h => h.name.toLowerCase() === 'content-length');
+  const tabId = details.tabId;
+  // 初始化特定标签页的图像数组
+  if (!allImages[tabId]) {
+    allImages[tabId] = [];
+  }
+  if (!allMonitorScripts[tabId]) {
+    allMonitorScripts[tabId] = {};
+    allMonitorScripts[tabId].ya = [];
+  }
+  // Only process image requests with content-length headers
+  if (header && details.type == 'image') {
+    if (header.value > 0) {
+      allImages[tabId].push({
+        url: details.url,
+        size: header.value
+      });
+    } else if (/ylog.huya.com/g.test(details.url)) {
+      allMonitorScripts[tabId].ya.push(details);
     }
 
-    // if (/((jquery\.min|Jcode)\.js)/.test(details.url)) {
-    //     monitorScripts.mixCommon.push(details.url);
-    // }
-    // if (/feSdk/.test(details.url)) {
-    //     monitorScripts.mixCommon.push(details.url);
-    // }
-
-    // if (/duowan\.js/.test(details.url)) {
-    //     monitorScripts.duowan.push(details.url);
-    // }
-
-    // if (/(hm|h)\.js/.test(details.url)) {
-    //     monitorScripts.bd.push(details.url);
-    // }
-
-    // if (/ylog\.hiido\.com/.test(details.url)) {
-    //     monitorScripts.ya.push(details.url);
-    // }
-
-    return false;
-    //++count;
-    //console.log(count + ': ' + details.url);
-
-    //var img = new Image();
-    //img.src = details.url;
-    //console.log(img);
-    //console.log(details.url + ': ' + img.naturalHeight + ', ' + img.naturalWidth);
-
+  }
 }
+chrome.webRequest.onCompleted.addListener(
+  request,
+  { urls: ['<all_urls>'] },
+  ['responseHeaders']
+);
 
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+// OR Clean up when a tab is updated and navigated to a new URL
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  console.log('changeInfo: ', changeInfo.status);
 
-    //if (!/(yy.com|duowan.com|5153.com)/ig.test(tab.url)) {
-    //    return false;
-    //}
-
-    if (changeInfo.status === 'loading') {
-
-        console.log('start load');
-        images = [];
-        // monitorScripts.mixCommon = [];
-        // monitorScripts.duowan = [];
-        // monitorScripts.bd = [];
-        // monitorScripts.ya = [];
-
-        allImages = {};
-        // allMonitorScripts = {};
-
-        chrome.webRequest.onCompleted.addListener(
-            request, {
-                urls:["<all_urls>"],
-                //types: ["image"],
-                tabId: tabId
-            }, ["responseHeaders"]);
-    }
-
-    if (changeInfo.status === 'complete') {
-
-        console.log('completed');
-
-        chrome.webRequest.onCompleted.removeListener(request);
-
-        images.forEach(function (image) {
-            var newImage = new Image();
-            newImage.src = image.url;
-            newImage.onload = function () {
-                image.width = newImage.naturalWidth;
-                image.height = newImage.naturalHeight;
-                console.log('load!');
-            };
-        });
-
-        allImages[tabId] = images;
-        // allMonitorScripts[tabId] = monitorScripts;
-        console.log(allImages);
-
-
-        setTimeout(function () {
-            chrome.runtime.sendMessage('bg', function (response) {
-                console.log('send!');
-            });
-        }, 500);
-
-    }
+  if (changeInfo.status === 'loading') {
+    allImages[tabId] = [];
+    allMonitorScripts[tabId] = { ya: [] };
+    chrome.webRequest.onCompleted.addListener(
+      request,
+      { urls: ['<all_urls>'] },
+      ['responseHeaders']
+    );
+  }
+  if (changeInfo.status === 'complete') {
+    console.log('加载完毕，开始传递数据')
+    chrome.tabs.sendMessage(tabId, {
+      "scripsimg": allImages[tabId],
+      "monitorscript": allMonitorScripts[tabId], tabId: tabId
+    });
+  }
 });
-

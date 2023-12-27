@@ -7,7 +7,7 @@ body {
     font-size: 14px;
 }
 
-body.disabled{
+body.disabled {
     width: 200px;
     height: 40px;
 }
@@ -31,13 +31,13 @@ img {
     /*width: 500px;*/
 }
 
-.table>tbody>tr>th {
+.table > tbody > tr > th {
     width: 100px;
     overflow: hidden;
     word-break: break-all;
 }
 
-.table>tbody>tr>td {
+.table > tbody > tr > td {
     width: 400px;
     overflow: hidden;
     word-break: break-all;
@@ -47,9 +47,17 @@ img {
     width: 500px;
     margin: 10px 0;
 }
-#qrcode-wrap{
+#qrcode-wrap {
     width: 200px;
     margin: 20px auto;
 }
-#qrcode h2{text-align: center}
-#downImgAll{display:block;margin: 5px auto}
+.hide {
+    display: none;
+}
+#qrcode h2 {
+    text-align: center;
+}
+#downImgAll {
+    display: block;
+    margin: 5px auto;
+}

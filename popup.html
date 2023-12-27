@@ -1,71 +1,94 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="zh-CN">
-    <meta charset="UTF-8">
-    <title>NIE Web Checker</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/popup.css" type="text/css">
+    <meta charset="UTF-8" />
+    <title>HUYA Web Checker</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/popup.css" type="text/css" />
 </head>
+
 <body>
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="nav-item">
+                <a data-bs-target="#basic" data-bs-toggle="tab" class="nav-link active">页面基本信息</a>
+            </li>
+            <li role="presentation" class="nav-item">
+                <a data-bs-target="#monitor" data-bs-toggle="tab" class="nav-link">监测代码</a>
+            </li>
+            <li role="presentation" class="nav-item">
+                <a data-bs-target="#image" data-bs-toggle="tab" class="nav-link">图片大小</a>
+            </li>
+            <li role="presentation" class="nav-item">
+                <a data-bs-target="#qrcode" data-bs-toggle="tab" class="nav-link">二维码</a>
+            </li>
+        </ul>
 
-<div role="tabpanel">
-
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">基本信息</a></li>
-        <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">图片大小</a></li>
-        <li role="presentation"><a href="#qrcode" aria-controls="qrcode" role="tab" data-toggle="tab">二维码</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="basic">
-            <p id="meta-info">读取中...</p>
-            <table class="table hide" id="meta-table">
-                <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>内容</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="basic">
+                <p id="meta-info">读取中...</p>
+                <table class="table hide" id="meta-table">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>内容</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="monitor">
+                <p id="monitor-info">请点下方按钮刷新...</p>
+                <table class="table hide" id="monitor-table">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="ya-info">
+                            <th>Ya上报</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="image">
+                <p id="image-info">请点下方按钮刷新...</p>
+                <table class="table hide" id="image-table">
+                    <thead>
+                        <tr>
+                            <th>超标图片</th>
+                            <th>格式</th>
+                            <th>实际大小</th>
+                            <th>最大大小</th>
+                            <th>Width</th>
+                            <th>Height</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="qrcode">
+                <h2>本页面地址二维码</h2>
+                <div id="qrcode-wrap"></div>
+            </div>
         </div>
+        <div class="d-grid gap-2 mx-auto"><button class="btn btn-primary btn-refresh" type="button">
+                如有显示异常，请点此刷新
+            </button></div>
 
-        <div role="tabpanel" class="tab-pane" id="image">
-            <p id="image-info">请点下方按钮刷新...</p>
-            <table class="table hide" id="image-table">
-                <thead>
-                <tr>
-                    <th>超标图片</th>
-                    <th>格式</th>
-                    <th>实际大小</th>
-                    <th>最大大小</th>
-                    <th>Width</th>
-                    <th>Height</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <a class="btn btn-primary" id="downImgAll">下载此页面所有图片</a>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="qrcode">
-            <h2>本页面地址二维码</h2>
-            <div id="qrcode-wrap"></div>
-
-        </div>
     </div>
 
-    <button type="button" class="btn btn-default btn-lg btn-block btn-refresh">如有显示异常，请点此刷新</button>
-
-</div>
-
-
-<script src="js/lib/jquery-2.1.3.min.js"></script>
-<script src="js/lib/bootstrap.min.js"></script>
-<script src="js/module/meta.js"></script>
-<script src="js/module/image.js"></script>
-<script src="js/module/jquery.qrcode.min.js"></script>
-<script src="js/popup.js"></script>
+    <script src="js/lib/jquery-2.1.3.min.js"></script>
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
+    <script src="js/module/meta.js"></script>
+    <script src="js/module/image.js"></script>
+    <script src="js/module/jquery.qrcode.min.js"></script>
+    <script src="js/module/monitor.js"></script>
+    <script src="js/popup.js"></script>
 </body>
+
 </html>
