@@ -1,3 +1,4 @@
+
 function getCurrentTab() {
     return new Promise((resolve) => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -9,17 +10,6 @@ function getCurrentTab() {
 document.addEventListener('DOMContentLoaded', async () => {
     let currentTab = await getCurrentTab();
 
-    chrome.runtime.onMessage.addListener(
-        function (request, sender, sendResponse) {
-            console.log('popup接收到的数据: ', request);
-            if (typeof request === 'object') {
-                $('#meta-info').addClass('hide');
-                $('#meta-table').removeClass('hide').find('tbody').html(ModMeta.build(request));
-            }
-            if (request.images) {
-                ModImage.init(request.images);
-            }
-        })
 
     // Setting up QR Code for the current tab URL
     $("#qrcode-wrap").qrcode({
@@ -33,19 +23,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     });
 
-    // Inject content script when the popup is opened, if not already injected.
-    chrome.scripting.executeScript({
-        target: { tabId: currentTab.id },
-        files: ["js/content_script.js"]
-    });
 
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        console.log('request: ', request);
 
+        if (typeof request === 'object' && request.title) {
+            $('#meta-info').addClass('hide');
+            $('#meta-table').removeClass('hide').find('tbody').html(ModMeta.build(request));
+        }
+        if (request.scripsimg) {
+            const scripsimg = request.scripsimg;
+            console.log('images: ', images);
+            scripsimg.forEach(function (image) {
+
+                const newImage = new Image();
+                newImage.src = image.url;
+                newImage.onload = function () {
+                    image.width = newImage.naturalWidth;
+                    image.height = newImage.naturalHeight;
+                    console.log('load!');
+                };
+            });
+            console.log('scripsimg: ', scripsimg);
+            ModImage.init(scripsimg);
+
+            ModMonitor.init(request.monitorScripts);
+            // chrome.runtime.sendMessage({ images: allImages });
+        }
+    }
+    );
 })
-// function main (tabId) {
-
-//     var BGPage = chrome.extension.getBackgroundPage();
-//     var images = BGPage.allImages[tabId];
-//     var monitorScripts = BGPage.allMonitorScripts[tabId];
-//     ModImage.init(images);
-//     ModMonitor.init(monitorScripts);
-// }

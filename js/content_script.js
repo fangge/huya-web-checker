@@ -1,45 +1,24 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log('request: ', request);
-    if (request.scripsimg) {
-        const scripsimg = request.scripsimg;
-        console.log('images: ', images);
-        scripsimg.forEach(function (image) {
-            const newImage = new Image();
-            newImage.src = image.url;
-            newImage.onload = function () {
-                image.width = newImage.naturalWidth;
-                image.height = newImage.naturalHeight;
-                console.log('load!');
-            };
-        });
-        console.log('images: ', images);
-        allImages[request.tabId] = scripsimg;
-        chrome.runtime.sendMessage({ images: allImages });
+
+let msg = {
+    title: document.title
+};
+Array.from(document.getElementsByTagName('meta')).reduce((acc, meta) => {
+    if (meta.name) msg[meta.name.toLowerCase()] = meta.content;
+    return acc;
+}, {})
+
+chrome.runtime.sendMessage(msg);
+
+window.addEventListener('load', () => {
+    // Send the PAGE_READY message to background script
+    chrome.runtime.sendMessage({ type: 'PAGE_READY' });
+  });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log('Received message:', message);
+    if (message.action === 'send_data') {
+        console.log('Received image data:', message.scripsimg);
+        console.log('Received monitor script data:', message.monitorscript);
+        // Process the message data here...
     }
-}
-);
-
-let msg = {};
-let allImages = {};
-let doc = document.documentElement;
-
-let title = doc.getElementsByTagName('title')[0].innerText;
-
-msg['title'] = title;
-
-
-let metas = doc.getElementsByTagName('meta');
-
-[].forEach.call(metas, function (e, i, a) {
-    if (e.name) {
-        msg[e.name.toLocaleLowerCase()] = e.content;
-    }
-
 });
-
-chrome.runtime.sendMessage(msg, function (response) {
-    //alert('send!');
-    console.log('传输meta标签', meta)
-});
-
-// content_script.js
